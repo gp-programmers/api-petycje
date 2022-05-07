@@ -91,7 +91,7 @@ export function users(app){
                             res.sendStatus(204);
                         }
                         else
-                            res.status(403).send({code:0,message:"Missing Permmisions"})
+                            res.status(403).send({code:0,message:"Missing Permissions"})
                     }
                     else
                         res.status(401).send({code:0,message:"Unauthorized"}) 
@@ -112,7 +112,7 @@ export function users(app){
                     res.sendStatus(204);
                 }
                 else
-                res.status(403).send({code:0,message:"Missing Permmisions"})
+                res.status(403).send({code:0,message:"Missing Permissions"})
             }
             else
                 res.status(400).send({message:"Invalid body"})
