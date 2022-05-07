@@ -1,0 +1,76 @@
+/petitions
+	GET Zwraca wszystkie petycje dla których anonimowy użytkownik ma VIEW_PETITION
+	POST Tworzy nową petycję
+		Wymaga: CREATE_PETITION
+		Przyjmuje:
+		title,content,anonperm:number
+/petitions/:id
+	GET Zwraca petycje
+		Wymaga: View_petition
+	Delete kasuje petycje
+		Wymaga:Manage_petition
+	Put dołącza użytkownika do petycji(musi to wywołać użytkownik)
+/petitions/:id/sign
+	GET Zwraca wszystkich użytkowników którzy podpisali petycje
+	PUT podpisuje petycje
+		Wymaga:Interact_with_petition
+	Delete odpodpisuje petycje
+/petitions/:id/users
+	GET zwraca użytkowników którzy dołączyli do petycji
+		Wymaga:Manage_Permissions
+/petitions/:id/users/:uid
+	GET zwraca objekt użytkownika petycji
+		Wymaga:Manage_Permissions
+	Patch nadpisuje uprawnienia
+		Wymaga:Manage_Permissions
+/users/:id
+	GET Zwraca objekt użytkownika
+		nick_guild Wymaga: autoryzacji użytkownika
+		permissions Wymaga:Manage_Permissions
+
+Przykładowe objekty
+Użytkownika Petycji:
+	{
+    "uid": "510482750458036224",
+    "timestamp": 1651918476,
+    "oid": "2ef3759a172a1ec738ada3f528b64cfd",
+    "permission": 0
+}
+Użytkownika:
+	{
+    "id": "510482750458036224",
+    "tag": "pythontest#2137",
+    "image_url": "e1de04980d71901025448f3d6b7a7dad",
+    "nick_guild": "Michał Masny | pythontest",
+    "permissions": null
+}
+Petycji:
+{
+    "title": "test",
+    "content": "content",
+    "creator": "510482750458036224",
+    "anonperm": 0,
+    "timestamp": 1651918476,
+    "id": "2ef3759a172a1ec738ada3f528b64cfd"
+}
+Podpisu Użytkownika:
+{
+        "uid": "510482750458036224",
+        "timestamp": 1651920394
+    }
+
+Uprawnienia
+
+Globalne:
+CREATE_PETITIONS:1<<0,
+        MANAGE_PERMISSIONS:1<<1,
+        ADMINISTRATOR:1<<2,
+        MANAGE_USERS:1<<3
+Petycji:
+        MANAGE_PETITION:1<<0,
+        VIEW_PETITION:1<<2,
+        MANAGE_PERMISSIONS:1<<3,
+        ADD_COMMENTS:1<<4,
+        VIEW_COMMENTS:1<<5,
+        INTERACT_WITH_PETITION:1<<6,
+        INTERACT_WITH_COMMENTS:1<<7

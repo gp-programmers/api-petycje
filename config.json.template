@@ -1,0 +1,14 @@
+{
+    "port":2137,
+    "client_secret":"",
+    "client_id":"",
+    "ouath_url":"https://api.panel.local/login",
+    "req_scope":["identify", "guilds.members.read"],
+    "req_guild":{
+        "is":true,
+        "id":""
+    },
+    "default_perm":0,
+    "anon_perm":0,
+    "superadmin":false
+}
