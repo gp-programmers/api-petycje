@@ -1,11 +1,11 @@
 import { createRequire } from "module";
 import { db } from "./db.js";
 import { obtainoauth2 } from "./functions.js";
-import { user, verifyuser } from "./users.js";
+import { petitions } from "./routes/petitions.js";
+import { users } from "./routes/users.js";
 import bodyParser from "body-parser";
-import { WebhookClient } from "discord.js";
+
 const require = createRequire(import.meta.url);
-require('dotenv').config();
 const express = require("express")
 var app = express()
 const config = require("./config.json")
@@ -50,6 +50,8 @@ app.get("/login",(req,res)=>{
         }
     })
 })
+users(app);
+petitions(app);
 app.delete("/logout",(req,res)=>{
     if(req.headers["authorization"]!==undefined){
         dbc.logout(req.headers["authorization"]);
@@ -57,43 +59,6 @@ app.delete("/logout",(req,res)=>{
     }
     else
         res.status(400).send({message:"You aren't loginned"})
-})
-app.post("/send",(req,res)=>{
-    if(req.body.content!==undefined){
-        var webhook = new WebhookClient({
-            url:process.env.WEBHOOK
-        });
-        console.log(req.headers["authorization"]);
-        verifyuser(req.headers["authorization"],dbc).then(async auth=>{
-            console.log(auth)
-            if(auth.auth)
-            {
-                var us = new user(auth.id,dbc.dbc);
-                var uso = await us.getuser();
-                webhook.send({
-                    content:req.body.content.replace("__ping__",`<@&${config.role}>`),
-                    username:uso["nick_guild"],
-                    allowedMentions:{
-                        parse:[],
-                        roles:[config.role]
-                    },
-                    avatarURL:`https://cdn.discordapp.com/avatars/${uso.id}/${uso["image_url"]}.png`
-                }).then(ok=>{
-                    console.log(ok)
-                    res.sendStatus(204);
-                })
-                .catch(err=>{
-                    console.error(err);
-                    res.sendStatus(500);
-                })
-            }
-            else
-                res.status(401).send({message:"Unauthorized"});
-            
-        })
-    }
-    else
-        res.status(400).send({message:"Wrong body"});
 })
 app.use("/",(req,res)=>{
 

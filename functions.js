@@ -11,8 +11,8 @@ export function randomint(min, max){
   };
 export async function obtainoauth2(code,redirect,callback){
     let body = {
-      "client_id":process.env.ID,
-      "client_secret":process.env.SECRET,
+      "client_id":config.client_id,
+      "client_secret":config.client_secret,
       'grant_type':'authorization_code',
       "code":code,
       "redirect_uri":redirect

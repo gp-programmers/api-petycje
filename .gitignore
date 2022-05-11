@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 config.json
 .env
+=======
+*.json
+>>>>>>> parent of d19b4e8 (main)

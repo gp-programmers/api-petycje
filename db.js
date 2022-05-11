@@ -12,17 +12,7 @@ export class db{
     constructor(){
         this.path="db.db"
         this.#sqlite = require("sqlite3").verbose();
-        this.#db = new this.#sqlite.Database(":memory:")
-        this.#db.run(`CREATE TABLE "sessions" (
-            "token"	TEXT,
-            "id"	TEXT
-        )`);
-        this.#db.run(`CREATE TABLE "users" (
-            "id"	TEXT,
-            "tag"	TEXT,
-            "image_url"	TEXT,
-            "nick_guild"	TEXT
-        , "permissions"	INTEGER)`);
+        this.#db = new this.#sqlite.Database(this.path)
     }
     async verify(token){
         return new Promise((resolve,reject)=>{
@@ -60,8 +50,6 @@ export class db{
         if(guild===undefined)
             resolve(undefined);
     }
-    console.log(config.whitelist.find(ele=>ele==user.id))
-    if(config.whitelist.find(ele=>ele==user.id)!==-1){
     this.#db.run(`INSERT INTO "main"."sessions"("token","id") VALUES (?,?);`,[hash,user.id],err=>{
         if(err){
             console.error(err)
@@ -90,9 +78,6 @@ export class db{
                 resolve(hash)
         })
     })
-}
-else
-    resolve(undefined);
 })
     }
     logout(token){
