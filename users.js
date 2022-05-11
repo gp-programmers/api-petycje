@@ -1,10 +1,9 @@
 import { db } from "./db.js";
 import { createRequire } from "module";
 import { resolve } from "path";
-const dbc = new db();
 const require = createRequire(import.meta.url);
 const config =require("./config.json");
-export async function verifyuser(header){
+export async function verifyuser(header,dbc){
     if(header!==undefined){
       return await dbc.verify(header);
     }   
@@ -14,9 +13,8 @@ export async function verifyuser(header){
 export class user{
     #db;
     #sqlite;
-    constructor(id){
-        var tmp = new db()
-        this.#db=tmp.dbc;
+    constructor(id,dbc){
+        this.#db=dbc;
         this.id = id;
     }
     static PERMISSIONS={
